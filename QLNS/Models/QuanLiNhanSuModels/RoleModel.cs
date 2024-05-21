@@ -1,14 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using QLNS.Entities;
 using System.ComponentModel.DataAnnotations;
 
-namespace QLNS.Entities
+namespace QLNS.Models.QuanLiNhanSuModels
 {
-    [Table("Department")]
-    public class Department
+    public class RoleModel
     {
         [Key]
-
-        public string? Id { get; set; } = null!;
+        public int? Id { get; set; }
         public string Name { get; set; } = null!;
 
         public virtual ICollection<User>? Users { get; set; }

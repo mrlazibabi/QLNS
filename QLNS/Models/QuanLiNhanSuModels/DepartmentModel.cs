@@ -1,8 +1,14 @@
-﻿namespace QLNS.Models.QuanLiNhanSuModels
+﻿using QLNS.Entities;
+using System.ComponentModel.DataAnnotations;
+
+namespace QLNS.Models.QuanLiNhanSuModels
 {
     public class DepartmentModel
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
+        [Key]
+        public string? Id { get; set; } = null!;
+        public string Name { get; set; } = null!;
+
+        public virtual ICollection<User>? Users { get; set; }
     }
 }
