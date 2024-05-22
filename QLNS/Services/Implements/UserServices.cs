@@ -48,10 +48,15 @@ namespace QLNS.Services.Implements
             return _mapper.Map<UserModel>(user);
         }
 
-        public async Task UpdateUserAsync(string id, UserModel model)
+        public Task UpdateUserAsync(string id, UserModel model)
         {
-            _context.UserModel.Update(model);
-            await _context.SaveChangesAsync();
+            throw new NotImplementedException();
         }
+
+        //    public async Task UpdateUserAsync(string id, UserModel model)
+        //    {
+        //        _context.UserModel.Update(model);
+        //        await _context.SaveChangesAsync();
+        //    }
     }
 }

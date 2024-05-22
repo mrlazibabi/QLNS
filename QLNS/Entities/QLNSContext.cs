@@ -15,9 +15,6 @@ namespace QLNS.Entities
         public DbSet<User>? Users { get; set; }
         public DbSet<Department>? Departments { get; set; }
         public DbSet<Role>? Roles { get; set; }
-        public DbSet<UserModel>? UserModel { get; set; }
-        public DbSet<DepartmentModel>? DepartmentModel { get; set; }
-        public DbSet<RoleModel>? RoleModel { get; set; }
         #endregion
     }
 }

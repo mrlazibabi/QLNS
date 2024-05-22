@@ -8,24 +8,24 @@ namespace QLNS.Entities
     { 
         [Key]
         [Required]
-        public string Id { get; set; } = null!;
+        public string Id { get; set; } 
         [Required]
-        public string FullName { get; set; } = null!;
+        public string FullName { get; set; } 
         [Required]
         [DataType(DataType.EmailAddress)]
-        public string Email { get; set; } = null!;
+        public string Email { get; set; } 
         [Required]
         [DataType(DataType.Password)]
-        public string Password { get; set; } = null!;
+        public string Password { get; set; } 
         [Required]
-        public string Phone { get; set; } = null!;
+        public string Phone { get; set; } 
         [Required]
-        [ForeignKey("Department")]
+        [ForeignKey("DepartmentId")]
         public virtual Department? Departments { get; set; }
-        public string? DepId { get; set; }
+        public int DepartmentId { get; set; }
         [Required]
-        [ForeignKey("Role")]
+        [ForeignKey("RoleId")]
         public virtual Role? Roles { get; set; }
-        public int? RoleId { get; set; }
+        public int RoleId { get; set; }
     }
 }
