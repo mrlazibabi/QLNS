@@ -237,12 +237,33 @@ namespace QLNS.Migrations
                     b.ToTable("Department");
                 });
 
-            modelBuilder.Entity("QLNS.Entities.Employee", b =>
+            modelBuilder.Entity("QLNS.Entities.Role", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
+                });
+
+            modelBuilder.Entity("QLNS.Entities.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DepartmentId")
+                    b.Property<string>("DepId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Email")
@@ -253,19 +274,27 @@ namespace QLNS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Sex")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DepartmentId");
+                    b.HasIndex("Department");
 
-                    b.ToTable("Employee");
+                    b.HasIndex("Role");
+
+                    b.ToTable("User");
                 });
 
             modelBuilder.Entity("QLNS.Models.QuanLiNhanSuModels.DepartmentModel", b =>
@@ -282,15 +311,30 @@ namespace QLNS.Migrations
                     b.ToTable("DepartmentModel");
                 });
 
-            modelBuilder.Entity("QLNS.Models.QuanLiNhanSuModels.EmployeeModel", b =>
+            modelBuilder.Entity("QLNS.Models.QuanLiNhanSuModels.RoleModel", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int?>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RoleModel");
+                });
+
+            modelBuilder.Entity("QLNS.Models.QuanLiNhanSuModels.UserModel", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DepartmentId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DepartmentName")
+                    b.Property<string>("DepId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -301,17 +345,21 @@ namespace QLNS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Sex")
+                    b.Property<string>("RoleId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmployeeModel");
+                    b.ToTable("UserModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -365,18 +413,33 @@ namespace QLNS.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QLNS.Entities.Employee", b =>
+            modelBuilder.Entity("QLNS.Entities.User", b =>
                 {
-                    b.HasOne("QLNS.Entities.Department", "Department")
-                        .WithMany("Employees")
-                        .HasForeignKey("DepartmentId");
+                    b.HasOne("QLNS.Entities.Department", "Departments")
+                        .WithMany("Users")
+                        .HasForeignKey("Department")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Department");
+                    b.HasOne("QLNS.Entities.Role", "Roles")
+                        .WithMany("Users")
+                        .HasForeignKey("Role")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Departments");
+
+                    b.Navigation("Roles");
                 });
 
             modelBuilder.Entity("QLNS.Entities.Department", b =>
                 {
-                    b.Navigation("Employees");
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("QLNS.Entities.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

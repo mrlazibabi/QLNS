@@ -76,20 +76,46 @@ namespace QLNS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeeModel",
+                name: "Role",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Role", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RoleModel",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoleModel", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserModel",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Sex = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DepartmentId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DepartmentName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    DepId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RoleId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeeModel", x => x.Id);
+                    table.PrimaryKey("PK_UserModel", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -199,24 +225,34 @@ namespace QLNS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employee",
+                name: "User",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Sex = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DepartmentId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Department = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DepId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Role = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employee", x => x.Id);
+                    table.PrimaryKey("PK_User", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Employee_Department_DepartmentId",
-                        column: x => x.DepartmentId,
+                        name: "FK_User_Department_Department",
+                        column: x => x.Department,
                         principalTable: "Department",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_User_Role_Role",
+                        column: x => x.Role,
+                        principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -259,9 +295,14 @@ namespace QLNS.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employee_DepartmentId",
-                table: "Employee",
-                column: "DepartmentId");
+                name: "IX_User_Department",
+                table: "User",
+                column: "Department");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_Role",
+                table: "User",
+                column: "Role");
         }
 
         /// <inheritdoc />
@@ -286,10 +327,13 @@ namespace QLNS.Migrations
                 name: "DepartmentModel");
 
             migrationBuilder.DropTable(
-                name: "Employee");
+                name: "RoleModel");
 
             migrationBuilder.DropTable(
-                name: "EmployeeModel");
+                name: "User");
+
+            migrationBuilder.DropTable(
+                name: "UserModel");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -299,6 +343,9 @@ namespace QLNS.Migrations
 
             migrationBuilder.DropTable(
                 name: "Department");
+
+            migrationBuilder.DropTable(
+                name: "Role");
         }
     }
 }
