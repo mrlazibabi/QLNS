@@ -78,7 +78,6 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IDepartmentServices, DepartmentServices>();
-builder.Services.AddScoped<IAccountServices, AccountServices>();
 
 var app = builder.Build();
 
