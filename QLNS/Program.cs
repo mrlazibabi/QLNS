@@ -61,6 +61,13 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Add authorization
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("Employee", policy => policy.RequireRole("Employee"));
+});
+
 // Add DBContext
 builder.Services.AddDbContext<QLNSContext>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("QLNS")));
 
